@@ -4,10 +4,10 @@ SELECT * FROM recettes ORDER BY tempsPreparation;
 
 
 2- En modifiant la requête précédente, faites apparaître le nombre d’ingrédients nécessaire par recette.
-SELECT id_recettes,
-COUNT(id_ingredients) AS nombreIngredients
-FROM quantite
-GROUP BY id_recettes;
+SELECT nom, COUNT(id_ingredients) AS nombreIngredients
+FROM recettes
+JOIN quantite ON recettes.id_recettes = quantite.id_recettes
+GROUP BY recettes.nom;
 
 
 3- Afficher les recettes qui nécessitent au moins 30 min de préparation
@@ -33,6 +33,11 @@ VALUES ('PatesCarbo', '20', '');
 
 6- Modifier le nom de la recette ayant comme identifiant id_recette = 3 (nom de la recette à votre 
 convenance)
+UPDATE recettes 
+SET nom = "nomModifie"
+WHERE id_recettes = 3;
+
+
 7- Supprimer la recette n°2 de la base de données
 8- Afficher le prix total de la recette n°5
 9- Afficher le détail de la recette n°5 (liste des ingrédients, quantités et prix)
