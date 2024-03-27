@@ -7,7 +7,8 @@ SELECT * FROM recettes ORDER BY tempsPreparation;
 SELECT nom, COUNT(id_ingredients) AS nombreIngredients
 FROM recettes
 JOIN quantite ON recettes.id_recettes = quantite.id_recettes
-GROUP BY recettes.nom;
+GROUP BY recettes.nom
+ORDER BY recettes.nom;
 
 
 3- Afficher les recettes qui nécessitent au moins 30 min de préparation
@@ -39,7 +40,17 @@ WHERE id_recettes = 3;
 
 
 7- Supprimer la recette n°2 de la base de données
+-- Pour supprimer une clé primaire, on doit d'abord supprimer les clés étrangères reférencée dans d'autres tables
+DELETE FROM quantite
+WHERE id_recettes = 10;
+
+-- Suppression de la clé primaire
+DELETE FROM recettes
+WHERE id_recettes = 10;
+
+
 8- Afficher le prix total de la recette n°5
+
 9- Afficher le détail de la recette n°5 (liste des ingrédients, quantités et prix)
 10- Ajouter un ingrédient en base de données : Poivre, unité : cuillère à café, prix : 2.5 €
 11- Modifier le prix de l’ingrédient n°12 (prix à votre convenance)
