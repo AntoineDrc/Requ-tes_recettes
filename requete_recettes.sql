@@ -6,6 +6,7 @@ SELECT * FROM recettes ORDER BY tempsPreparation;
 2- En modifiant la requête précédente, faites apparaître le nombre d’ingrédients nécessaire par recette.
 SELECT nom, COUNT(id_ingredients) AS nombreIngredients
 FROM recettes
+-- Grâce à propriété commune "id_recettes" on établie un lien entre les deux tables qui nous donnes accès à toutes leurs propriétés
 JOIN quantite ON recettes.id_recettes = quantite.id_recettes
 GROUP BY recettes.nom
 ORDER BY recettes.nom;
@@ -14,6 +15,7 @@ ORDER BY recettes.nom;
 3- Afficher les recettes qui nécessitent au moins 30 min de préparation
 SELECT *
 FROM recettes 
+-- WHERE filtes les résultat par la condition souhaitée
 WHERE tempsPreparation >= "30";
 
 
@@ -50,8 +52,23 @@ WHERE id_recettes = 10;
 
 
 8- Afficher le prix total de la recette n°5
+SELECT SUM(ingredients.prix * quantite.quantite) AS prixTotal
+FROM recettes 
+-- On établi le lien entre la table "recettes" et "quantite" via "id_recettes"
+JOIN quantite ON recettes.id_recettes = quantite.id_recettes
+-- On établi le lien entre la table "quantite" et "ingredients" via "id_ingredients", donnant accès au propriétés des 3 tables nécessaire pour le calcul
+JOIN ingredients ON quantite.id_ingredients = ingredients.id_ingredients 
+WHERE recettes.id_recettes = 5;
+
 
 9- Afficher le détail de la recette n°5 (liste des ingrédients, quantités et prix)
+SELECT ingredients.nom, quantite.quantite, ingredients.uniteMesure, ingredients.prix, (quantite.quantite * ingredients.prix) AS prixIngredients
+FROM recettes 
+JOIN quantite ON recettes.id_recettes = quantite.id_recettes
+JOIN ingredients ON quantite.id_ingredients = ingredients.id_ingredients 
+WHERE recettes.id_recettes = 5;
+
+
 10- Ajouter un ingrédient en base de données : Poivre, unité : cuillère à café, prix : 2.5 €
 11- Modifier le prix de l’ingrédient n°12 (prix à votre convenance)
 12- Afficher le nombre de recettes par catégories : X entrées, Y plats, Z desserts
