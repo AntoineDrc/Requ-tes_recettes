@@ -70,8 +70,28 @@ WHERE recettes.id_recettes = 5;
 
 
 10- Ajouter un ingrédient en base de données : Poivre, unité : cuillère à café, prix : 2.5 €
+INSERT INTO ingredients (nom, prix, uniteMesure)
+VALUES ("poivre", 2.5, "cuilliereCafe");
+
+
 11- Modifier le prix de l’ingrédient n°12 (prix à votre convenance)
+UPDATE ingredients 
+SET prix = 0.15
+WHERE id_ingredients = 12;
+
+
 12- Afficher le nombre de recettes par catégories : X entrées, Y plats, Z desserts
+SELECT CONCAT
+(
+    SUM(CASE WHEN recettes.id_categorie = 1 THEN 1 ELSE 0 END), ' entrées, ',
+    SUM(CASE WHEN recettes.id_categorie = 2 THEN 1 ELSE 0 END), ' plats, ',
+    SUM(CASE WHEN recettes.id_categorie = 3 THEN 1 ELSE 0 END), ' desserts'
+) 
+AS "Nombre de recettes par catégories"
+FROM 
+    recettes;
+
+
 13- Afficher les recettes qui contiennent l’ingrédient « Poulet »
 14- Mettez à jour toutes les recettes en diminuant leur temps de préparation de 5 minutes 
 15- Afficher les recettes qui ne nécessitent pas d’ingrédients coûtant plus de 2€ par unité de mesure
