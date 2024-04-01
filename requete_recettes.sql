@@ -93,9 +93,38 @@ FROM
 
 
 13- Afficher les recettes qui contiennent l’ingrédient « Poulet »
+SELECT recettes.nom 
+FROM recettes 
+JOIN quantite ON recettes.id_recettes = quantite.id_recettes
+JOIN ingredients ON quantite.id_ingredients = ingredients.id_ingredients
+WHERE ingredients.nom = "poulet";
+
+
 14- Mettez à jour toutes les recettes en diminuant leur temps de préparation de 5 minutes 
+UPDATE recettes
+SET tempsPreparation = 5
+WHERE tempsPreparation != 5;
+
+
 15- Afficher les recettes qui ne nécessitent pas d’ingrédients coûtant plus de 2€ par unité de mesure
+SELECT recettes.nom 
+FROM recettes 
+JOIN quantite ON recettes.id_recettes = quantite.id_recettes
+JOIN ingredients ON quantite.id_ingredients = ingredients.id_ingredients 
+WHERE prix <= 2 
+ORDER BY recettes.id_categorie
+
+
 16- Afficher la / les recette(s) les plus rapides à préparer
+SELECT nom, tempsPreparation
+FROM recettes 
+WHERE tempsPreparation = 
+(
+SELECT MIN(tempsPreparation)
+FROM recettes 
+)
+
+
 17- Trouver les recettes qui ne nécessitent aucun ingrédient (par exemple la recette de la tasse d’eau 
 chaude qui consiste à verser de l’eau chaude dans une tasse)
 18- Trouver les ingrédients qui sont utilisés dans au moins 3 recettes
