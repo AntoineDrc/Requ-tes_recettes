@@ -144,6 +144,11 @@ GROUP BY ingredients.nom -- Groupe les résultats par nom d'ingrédient pour le 
 HAVING COUNT(quantite.id_recettes) >= 3; -- Filtre pour inclure les ingrédients utilisés dans au moins trois recette
 
 19- Ajouter un nouvel ingrédient à une recette spécifique
+INSERT INTO ingredients (nom, prix, uniteMesure)
+VALUES ("beurre", 2, "unite");
+INSERT INTO quantite (quantite.quantite, id_recettes, id_ingredients)
+VALUES (1, 7, LAST_INSERT_ID()) -- Renvoie l'ID généré par la dernière opération grâce à l'auto-increment 
+
 20- Bonus : Trouver la recette la plus coûteuse de la base de données (il peut y avoir des ex aequo, il est 
 donc exclu d’utiliser la clause LIMIT)
 
