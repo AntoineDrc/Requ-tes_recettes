@@ -151,4 +151,25 @@ VALUES (1, 7, LAST_INSERT_ID()) -- Renvoie l'ID généré par la dernière opér
 
 20- Bonus : Trouver la recette la plus coûteuse de la base de données (il peut y avoir des ex aequo, il est 
 donc exclu d’utiliser la clause LIMIT)
+-- Définition d'une CTE (Common Table Expression) nommée coutRecettes.
+-- Cette CTE va calculer le nom et le coût total des ingrédients pour chaque recette.
+WITH coutRecettes AS 
+(
+    SELECT recettes.nom, SUM(quantite.quantite * ingredients.prix) AS prixTotal -- Calcul du coût total des ingrédients pour chaque recette
+    FROM recettes 
+    JOIN quantite ON recettes.id_recettes = quantite.id_recettes 
+    JOIN ingredients ON quantite.id_ingredients = ingredients.id_ingredients 
+    GROUP BY recettes.nom -- Regroupement des résultats par le nom de la recette pour calculer le total par recette
+)
+
+-- Utilisation de la CTE coutRecettes pour sélectionner les recettes.
+SELECT nom, prixTotal 
+FROM coutRecettes 
+WHERE prixTotal = 
+(
+    -- Sous-requête pour trouver le coût total le plus élevé parmi toutes les recettes.
+    SELECT MAX(prixTotal) 
+	 FROM coutRecettes
+);
+
 
