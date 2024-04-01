@@ -127,7 +127,22 @@ FROM recettes
 
 17- Trouver les recettes qui ne nécessitent aucun ingrédient (par exemple la recette de la tasse d’eau 
 chaude qui consiste à verser de l’eau chaude dans une tasse)
+SELECT recettes.nom
+FROM recettes
+-- Le LEFT JOIN inclut toutes les recettes, même celles sans ingrédients associés.
+LEFT JOIN quantite ON recettes.id_recettes = quantite.id_recettes
+WHERE quantite.id_ingredients IS NULL;
+
+
 18- Trouver les ingrédients qui sont utilisés dans au moins 3 recettes
+SELECT ingredients.nom, 
+COUNT(quantite.id_recettes) AS nombreIngredients -- Compte le nombre de recettes par ingrédient
+FROM ingredients 
+JOIN quantite ON ingredients.id_ingredients = quantite.id_ingredients 
+JOIN recettes ON quantite.id_recettes = recettes.id_recettes 
+GROUP BY ingredients.nom -- Groupe les résultats par nom d'ingrédient pour le comptage
+HAVING COUNT(quantite.id_recettes) >= 3; -- Filtre pour inclure les ingrédients utilisés dans au moins trois recette
+
 19- Ajouter un nouvel ingrédient à une recette spécifique
 20- Bonus : Trouver la recette la plus coûteuse de la base de données (il peut y avoir des ex aequo, il est 
 donc exclu d’utiliser la clause LIMIT)
